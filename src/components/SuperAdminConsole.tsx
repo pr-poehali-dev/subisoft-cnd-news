@@ -100,10 +100,14 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
     switch(command.toLowerCase()) {
       case 'help':
         addMessage('output', `
-Доступные команды SubiSoftCND Console v2.0:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+╔═══════════════════════════════════════════════════════════╗
+║      SUBISOFT CND CONSOLE v2.0 - СИСТЕМА КОМАНД          ║
+╚═══════════════════════════════════════════════════════════╝
 
-📰 УПРАВЛЕНИЕ КОНТЕНТОМ ${!hasPermission('news.create') ? '🔒' : ''}:
+Ваш ранг: ${user.rank}/10 ${'★'.repeat(user.rank)} ${user.roleLabel}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+📰 УПРАВЛЕНИЕ КОНТЕНТОМ ${!hasPermission('news.create') ? '🔒 (Недоступно)' : '✅'}:
   news-add <заголовок> | <описание> | <категория> | <автор> | <url>
   news-edit <id> <поле> <значение>
   news-delete <id>
@@ -172,8 +176,17 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
   history - История команд
   logout - Выход из системы
 
-Ваша роль: ${user.roleLabel}
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+
+📋 ДОПОЛНИТЕЛЬНЫЕ КОМАНДЫ:
+  rank / whoami - Информация о ранге и иерархии
+
+Ваша роль: ${user.roleLabel} | Ранг: ${user.rank}/10
 Доступные права: ${user.permissions.join(', ')}
+
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+Используйте команды в соответствии с вашим рангом
+Для получения доступа к закрытым командам - повысьте ранг
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
         break;
 
@@ -357,16 +370,34 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
           break;
         }
         addMessage('output', `
-Пользователи системы:
+╔═══════════════════════════════════════════════════════════╗
+║           ПОЛЬЗОВАТЕЛИ СИСТЕМЫ SUBISOFT CND               ║
+╚═══════════════════════════════════════════════════════════╝
+
+[1] 🟡 ★★★★★★★★★★ founder@subisoft.com
+    Основатель | Ранг 10 | GOD MODE
+    
+[2] 🔴 ★★★★★★★★★ superadmin@subisoft.com
+    Высший Администратор | Ранг 9 | Full Access
+    
+[3] 🟠 ★★★★★★★★ admin@subisoft.com
+    Администратор | Ранг 8 | Management
+    
+[4] 🔵 ★★★★★★★ seniordev@subisoft.com
+    Старший Разработчик | Ранг 7 | Development
+    
+[5] 🔷 ★★★★★★ developer@subisoft.com
+    Разработчик | Ранг 6 | Development
+    
+[6] 🟣 ★★★★★ moderator@subisoft.com
+    Модератор | Ранг 5 | Moderation
+    
+[7] 🟢 ★★★★ employee@subisoft.com
+    Сотрудник | Ранг 4 | Content
+
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-[1] 🔴 superadmin@subisoft.com - Высший Администратор
-[2] 🟠 admin@subisoft.com - Главный редактор
-[3] 🔵 creator@subisoft.com - Создатель проекта
-[4] 🟢 employee@subisoft.com - Автор
-[5] 🟢 moderator@subisoft.com - Модератор
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-Всего активных: 5 | Онлайн сейчас: ${Math.floor(Math.random() * 3 + 1)}
-Текущий пользователь: ${user.username} (${user.roleLabel})`);
+Всего пользователей: 7 | Онлайн сейчас: ${Math.floor(Math.random() * 4 + 2)}
+Текущий: ${user.username} (${user.roleLabel} | Ранг ${user.rank})`);
         break;
 
       case 'logs':
@@ -555,15 +586,36 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
 Общий трафик: 18,852 визитов (+12% к прошлой неделе)`);
         break;
 
+      case 'rank':
       case 'whoami':
         addMessage('output', `
-Информация о текущем пользователе:
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-👤 Пользователь: ${user.username}
-🎭 Роль: ${user.roleLabel}
+╔═══════════════════════════════════════════════════════════╗
+║           ИНФОРМАЦИЯ О ПОЛЬЗОВАТЕЛЕ                       ║
+╚═══════════════════════════════════════════════════════════╝
+
+👤 Пользователь:  ${user.username}
+🎭 Роль:          ${user.roleLabel}
+⭐ Ранг:          ${user.rank}/10 ${'★'.repeat(user.rank)}
+🎨 Цвет ранга:    ${user.color}
 🔐 Права доступа: ${user.permissions.join(', ')}
-🆔 ID: ${user.id}
-⏰ Сессия активна: ${Math.floor(Math.random() * 120 + 30)} минут
+🆔 ID:            ${user.id}
+⏰ Сессия:        ${Math.floor(Math.random() * 120 + 30)} минут
+
+╔═══════════════════════════════════════════════════════════╗
+║           ИЕРАРХИЯ РАНГОВ SUBISOFT CND                    ║
+╚═══════════════════════════════════════════════════════════╝
+
+★★★★★★★★★★ Ранг 10 - Основатель (GOD MODE)
+★★★★★★★★★  Ранг 9  - Высший Администратор
+★★★★★★★★   Ранг 8  - Администратор
+★★★★★★★    Ранг 7  - Старший Разработчик
+★★★★★★     Ранг 6  - Разработчик
+★★★★★      Ранг 5  - Модератор
+★★★★       Ранг 4  - Сотрудник
+
+${user.rank >= 8 ? '✅ Вы имеете доступ ко всем системным командам' : ''}
+${user.rank >= 7 ? '✅ Доступ к деплою и базе данных' : ''}
+${user.rank >= 5 ? '✅ Доступ к управлению контентом' : ''}
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━`);
         break;
 
@@ -671,44 +723,48 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
     }
   };
 
-  const getBadgeVariant = () => {
-    switch(user.role) {
-      case 'superadmin': return 'destructive';
-      case 'admin': return 'default';
-      case 'creator': return 'secondary';
-      case 'employee': return 'outline';
-      default: return 'outline';
-    }
+  const getRankStars = (rank: number) => {
+    return '★'.repeat(Math.min(rank, 10));
   };
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
-      <DialogContent className="max-w-5xl h-[85vh] flex flex-col bg-[#0a0a0a] border-2 border-primary">
+      <DialogContent className="max-w-5xl h-[85vh] flex flex-col bg-[#0a0f0a] border-2 border-green-500/50" style={{ backgroundColor: '#0a0f0a' }}>
         <DialogHeader>
-          <DialogTitle className="flex items-center gap-3 text-primary font-mono text-lg">
-            <Icon name="Terminal" size={26} />
+          <DialogTitle className="flex items-center gap-3 text-green-400 font-mono text-lg">
+            <Icon name="Terminal" size={26} className="text-green-400" />
             <span>SubiSoftCND Console v2.0</span>
-            <Badge variant={getBadgeVariant()} className="ml-auto text-xs">
-              {user.roleLabel.toUpperCase()}
+            <Badge 
+              className="ml-auto text-xs font-bold" 
+              style={{ 
+                backgroundColor: user.color, 
+                color: user.rank >= 9 ? '#000' : '#fff',
+                border: `1px solid ${user.color}`
+              }}
+            >
+              {getRankStars(user.rank)} {user.roleLabel.toUpperCase()}
             </Badge>
-            <Badge variant="outline" className="text-xs">
+            <Badge variant="outline" className="text-xs text-green-400 border-green-500/30">
+              РАНГ {user.rank}
+            </Badge>
+            <Badge variant="outline" className="text-xs text-green-400 border-green-500/30">
               {user.username}
             </Badge>
           </DialogTitle>
         </DialogHeader>
 
-        <ScrollArea className="flex-1 rounded-md border border-primary/30 bg-black p-4" ref={scrollRef}>
+        <ScrollArea className="flex-1 rounded-md border border-green-500/30 bg-black p-4" ref={scrollRef}>
           <div className="space-y-1 font-mono text-sm">
             {messages.map((msg) => (
               <div key={msg.id} className="flex gap-2">
-                <span className="text-primary/40 text-xs shrink-0">[{msg.timestamp}]</span>
+                <span className="text-green-500/40 text-xs shrink-0">[{msg.timestamp}]</span>
                 <div className={`flex-1 ${
-                  msg.type === 'command' ? 'text-primary font-bold' :
+                  msg.type === 'command' ? 'text-green-400 font-bold' :
                   msg.type === 'error' ? 'text-red-400' :
                   msg.type === 'ai' ? 'text-cyan-400' :
-                  msg.type === 'success' ? 'text-green-400' :
+                  msg.type === 'success' ? 'text-lime-400' :
                   msg.type === 'warning' ? 'text-yellow-400' :
-                  'text-gray-300'
+                  'text-green-300/90'
                 }`}>
                   <pre className="whitespace-pre-wrap font-mono text-xs leading-relaxed">{msg.content}</pre>
                 </div>
@@ -719,31 +775,38 @@ export const SuperAdminConsole = ({ open, onOpenChange, onAddNews, onDeleteNews,
 
         <form onSubmit={handleSubmit} className="flex gap-2">
           <div className="flex-1 relative">
-            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-primary font-mono text-sm">
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-400 font-mono text-sm font-bold">
               {user.username}@subisoft:~$
             </span>
             <Input
               value={command}
               onChange={(e) => setCommand(e.target.value)}
               onKeyDown={handleKeyDown}
-              className="pl-48 bg-black border-primary/30 text-green-400 font-mono text-sm"
+              className="pl-48 bg-black border-green-500/30 text-green-400 font-mono text-sm focus:border-green-500 focus:ring-green-500"
               placeholder="Введите команду..."
               autoFocus
             />
           </div>
-          <Button type="submit" size="sm" className="gap-2">
+          <Button 
+            type="submit" 
+            size="sm" 
+            className="gap-2 bg-green-600 hover:bg-green-700 text-black font-bold"
+          >
             <Icon name="Send" size={16} />
             Выполнить
           </Button>
         </form>
 
-        <div className="flex gap-2 text-xs text-muted-foreground font-mono">
-          <kbd className="px-2 py-1 bg-black rounded border border-primary/30">help</kbd>
+        <div className="flex gap-2 text-xs text-green-400/70 font-mono items-center">
+          <kbd className="px-2 py-1 bg-black rounded border border-green-500/30 text-green-400">help</kbd>
           <span>команды</span>
-          <kbd className="px-2 py-1 bg-black rounded border border-primary/30">↑↓</kbd>
+          <kbd className="px-2 py-1 bg-black rounded border border-green-500/30 text-green-400">↑↓</kbd>
           <span>история</span>
-          <kbd className="px-2 py-1 bg-black rounded border border-primary/30">ai [запрос]</kbd>
-          <span>ИИ-ассистент</span>
+          <kbd className="px-2 py-1 bg-black rounded border border-green-500/30 text-green-400">ai [запрос]</kbd>
+          <span>ИИ</span>
+          <div className="ml-auto text-green-500/50">
+            System Status: <span className="text-lime-400 font-bold">● ONLINE</span>
+          </div>
         </div>
       </DialogContent>
     </Dialog>
