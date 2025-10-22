@@ -42,9 +42,9 @@ export const Header = ({ onAdminClick, currentPage, onPageChange }: HeaderProps)
           </nav>
 
           <div className="flex items-center gap-4">
-            <Button onClick={onAdminClick} variant="default" className="hidden md:flex items-center gap-2">
-              <Icon name="Settings" size={18} />
-              Админ-панель
+            <Button onClick={onAdminClick} variant="destructive" className="hidden md:flex items-center gap-2">
+              <Icon name="Terminal" size={18} />
+              Консоль
             </Button>
 
             <Sheet open={isOpen} onOpenChange={setIsOpen}>
@@ -70,9 +70,9 @@ export const Header = ({ onAdminClick, currentPage, onPageChange }: HeaderProps)
                       {item.label}
                     </button>
                   ))}
-                  <Button onClick={() => { onAdminClick(); setIsOpen(false); }} variant="default" className="w-full justify-start gap-2">
-                    <Icon name="Settings" size={18} />
-                    Админ-панель
+                  <Button onClick={() => { onAdminClick(); setIsOpen(false); }} variant="destructive" className="w-full justify-start gap-2">
+                    <Icon name="Terminal" size={18} />
+                    Консоль
                   </Button>
                 </nav>
               </SheetContent>

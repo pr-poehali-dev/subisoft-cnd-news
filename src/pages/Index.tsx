@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Header } from "@/components/Header";
 import { NewsCard } from "@/components/NewsCard";
-import { AdminPanel } from "@/components/AdminPanel";
+import { SuperAdminConsole } from "@/components/SuperAdminConsole";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
@@ -49,6 +49,10 @@ const Index = () => {
 
   const handleAddNews = (news: any) => {
     setNewsList([news, ...newsList]);
+  };
+
+  const handleDeleteNews = (id: number) => {
+    setNewsList(newsList.filter(news => news.id !== id));
   };
 
   return (
@@ -182,10 +186,12 @@ const Index = () => {
         </div>
       </footer>
 
-      <AdminPanel 
+      <SuperAdminConsole 
         open={adminOpen} 
         onOpenChange={setAdminOpen}
         onAddNews={handleAddNews}
+        onDeleteNews={handleDeleteNews}
+        newsList={newsList}
       />
     </div>
   );
