@@ -2,14 +2,17 @@ import { useState } from "react";
 import { Header } from "@/components/Header";
 import { NewsCard } from "@/components/NewsCard";
 import { SuperAdminConsole } from "@/components/SuperAdminConsole";
+import { LoginModal, type User } from "@/components/LoginModal";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
 
 const Index = () => {
+  const [loginOpen, setLoginOpen] = useState(false);
   const [adminOpen, setAdminOpen] = useState(false);
   const [currentPage, setCurrentPage] = useState<'home' | 'news'>('home');
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
+  const [user, setUser] = useState<User | null>(null);
   
   const [newsList, setNewsList] = useState([
     {
@@ -55,10 +58,27 @@ const Index = () => {
     setNewsList(newsList.filter(news => news.id !== id));
   };
 
+  const handleLogin = (loggedInUser: User) => {
+    setUser(loggedInUser);
+    setAdminOpen(true);
+  };
+
+  const handleLogout = () => {
+    setUser(null);
+  };
+
+  const handleAdminClick = () => {
+    if (!user) {
+      setLoginOpen(true);
+    } else {
+      setAdminOpen(true);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-background">
       <Header 
-        onAdminClick={() => setAdminOpen(true)} 
+        onAdminClick={handleAdminClick} 
         currentPage={currentPage}
         onPageChange={setCurrentPage}
       />
@@ -186,13 +206,23 @@ const Index = () => {
         </div>
       </footer>
 
-      <SuperAdminConsole 
-        open={adminOpen} 
-        onOpenChange={setAdminOpen}
-        onAddNews={handleAddNews}
-        onDeleteNews={handleDeleteNews}
-        newsList={newsList}
+      <LoginModal
+        open={loginOpen}
+        onOpenChange={setLoginOpen}
+        onLogin={handleLogin}
       />
+
+      {user && (
+        <SuperAdminConsole 
+          open={adminOpen} 
+          onOpenChange={setAdminOpen}
+          onAddNews={handleAddNews}
+          onDeleteNews={handleDeleteNews}
+          onLogout={handleLogout}
+          newsList={newsList}
+          user={user}
+        />
+      )}
     </div>
   );
 };
